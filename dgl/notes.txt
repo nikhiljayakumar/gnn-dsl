@@ -1,0 +1,24 @@
+Notes for 2/22 Meeting
+
+questions:
+Why does ogb not include feature vectors (have to instatiate random ones yourself)
+ - it does, figure out how it works
+What is the residual in GAT implementation
+ - not important
+What are "classes" in obg data
+ - classes of labels, outputs of neural networks
+
+Notes:
+current graphSAGE understanding:
+ - most gnn models work well as long as no new nodes are introduced
+ - graphSage tries to improve generalizability of graph, how well it can perform when new nodes introduced
+ - user inputs K: the degree to which neighbor nodes are aggregated to orignal node
+    - i.e. K=2 means branch out to all two nodes from original node
+ - when new node introduced, pass it through same aggregator for Kth layer with all of new nodes' connections
+
+
+ Todos:
+  - graphSAGE impelementation in DGL using primitives
+  - try impelemeting GCN primitives in other frameworks (ie PyG, Graphiler,..)
+  - understand specific methods about primitives, see how an equivalent can be implemented  
+ 
