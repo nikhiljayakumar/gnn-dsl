@@ -9,15 +9,15 @@ import torch.nn.functional as F
 from dgl import AddSelfLoop
 from dgl.data import CiteseerGraphDataset, CoraGraphDataset, PubmedGraphDataset
 from sage import graphSAGE as mygraphsage
-
+from dgl.nn import SAGEConv
 
 class SAGE(nn.Module):
     def __init__(self, in_size, hid_size, out_size):
         super().__init__()
         self.layers = nn.ModuleList()
         # two-layer GraphSAGE-mean
-        self.layers.append(mygraphsage(in_size, hid_size, "gcn"))
-        self.layers.append(mygraphsage(hid_size, out_size, "gcn"))
+        self.layers.append(SAGEConv(in_size, hid_size, "gcn"))
+        self.layers.append(SAGEConv(hid_size, out_size, "gcn"))
         self.dropout = nn.Dropout(0.5)
 
     def forward(self, graph, x):

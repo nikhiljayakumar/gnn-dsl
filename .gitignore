@@ -1,4 +1,8 @@
 dataset/
 pyg/datasets/
+pyg/pyg/datasets/
+pyg/__pycache__/
 dgl/dataset/
+dgl/__pycache__/
 .venv/
+.vscode/

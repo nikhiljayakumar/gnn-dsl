@@ -30,7 +30,7 @@ Note that the non-linearity is not integrated in the conv calls and
 hence needs to be applied afterwards (something which is consistent across all operators in PyG). 
 Here, we chose to use ReLU as our intermediate non-linearity and finally output a softmax distribution over the number of classes. 
 '''
-datasetDirectory = "/Users/nikhi/Documents/UIUC/AdaptLab/gnn-dsl/pyg/datasets"
+datasetDirectory = "./pyg/pyg/datasets"
 
 
 data = Planetoid(root=datasetDirectory, name="Cora")
@@ -42,7 +42,7 @@ optimizer = th.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 model.train()
 for epoch in range(50):
     optimizer.zero_grad()
-    out = model(data)
+    out = model(graph)
     loss = F.nll_loss(out[data.train_mask], graph.y[data.train_mask]) # https://pytorch.org/docs/stable/generated/torch.nn.functional.nll_loss.html
     if epoch % 5 == 0:
             print(

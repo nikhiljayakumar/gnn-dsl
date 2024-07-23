@@ -1,5 +1,6 @@
 import time
 import os
+import numpy
 
 os.environ["DGLBACKEND"] = "pytorch"
 import dgl
@@ -10,11 +11,13 @@ import torch.nn.functional as F
 from gcn import MyGraphConv
 from dgl.nn import GraphConv as RealGraphConv
 
+torch.set_printoptions(threshold=10000)
+
 class GCN(nn.Module):
     def __init__(self, in_feats, h_feats, num_classes):
         super(GCN, self).__init__()
-        self.conv1 = RealGraphConv(in_feats, h_feats, norm="both")
-        self.conv2 = RealGraphConv(h_feats, num_classes, norm="both")
+        self.conv1 = MyGraphConv(in_feats, h_feats, norm="both")
+        self.conv2 = MyGraphConv(h_feats, num_classes, norm="both")
 
     def forward(self, g, in_feat):
         h = self.conv1(g, in_feat)
@@ -66,13 +69,14 @@ def train(g, model):
     
 start = time.time()
 # provided cora dataset
-dataset = dgl.data.CiteseerGraphDataset()
+dataset = dgl.data.CoraGraphDataset()
 # print(f"Number of categories: {dataset.num_classes}")
 g = dataset[0]
 
 print("Node data", g.ndata)
 print("Edge data", g.edata)
-
+print("classes: ", dataset.num_classes)
+print("in_feat: ", g.ndata["feat"].shape[1])
 model = GCN(g.ndata["feat"].shape[1], 16, dataset.num_classes)
 train(g, model)
 end = time.time()
